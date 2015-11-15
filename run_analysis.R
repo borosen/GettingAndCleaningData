@@ -1,63 +1,64 @@
 # 0. Download raw data
 #temp <- tempfile()
 #download.file('https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip',
-#              temp)
+#              temp, mode="wb")
 #unzip(temp, exdir = 'data')
 #unlink(temp)
 #downloaded <- date()
 
-# 1. Merges the training and the test sets to create one data set. 
-#    Includes activity and column names. (point 2 and 3 in the README.md)
-# 1.a Load the test set. 
-suppressMessages(library(data.table))
-subject_test <- fread('data/UCI HAR Dataset/test/subject_test.txt')
-names(subject_test) <- "subject" 
-y_test <- fread('data/UCI HAR Dataset/test/Y_test.txt')
-names(y_test) <- "activity_code"
-set_test <- cbind(subject_test, y_test)
-activity <- fread('data/UCI HAR Dataset/activity_labels.txt')
-names(activity) <- c("activity_code", "activity")
-activity$activity <- factor(activity$activity)
-set_test <- merge(set_test, activity, by="activity_code")
-x_test <- fread('data/UCI HAR Dataset/test/X_test.txt')
-features <- gsub(",", "",
-                 fread('data/UCI HAR Dataset/features.txt')$V2)
-names(x_test) <- features
-set_test <- cbind(set_test, x_test)
 
-# 1.b Load the training set
-subject_train <- fread('data/UCI HAR Dataset/train/subject_train.txt')
-names(subject_train) <- "subject" 
-y_train <- fread('data/UCI HAR Dataset/train/Y_train.txt')
-names(y_train) <- "activity_code"
-set_train <- cbind(subject_train, y_train)
-set_train <- merge(set_train, activity, by="activity_code")
-x_train <- fread('data/UCI HAR Dataset/train/X_train.txt')
-names(x_train) <- features
-set_train <- cbind(set_train, x_train)
 
-# 1.c Create the full set
-set_full <- rbind(set_test, set_train)
+#1. Merge the training and the test sets to create one data set.
 
-# 2 Extract the measurements on the mean and standard deviation for each measurement.
-suppressMessages(library(dplyr))
-set_reduced <- tbl_dt(set_full) %>%
-    select(matches('^subject$|^activity$|mean\\(|std\\(')) 
+library(dplyr)
+subject_test <- read.table('data/UCI HAR Dataset/test/subject_test.txt')
+y_test <- read.table('data/UCI HAR Dataset/test/Y_test.txt')
+x_test <- read.table('data/UCI HAR Dataset/test/X_test.txt')
+data_test <- cbind(subject_test, y_test, x_test)
 
-# 3 Create a second, independant data set with the average of each variable
-#   for each activity and each subject.
-result <- set_reduced %>% 
-            group_by(subject, activity) %>%
-            summarise_each(funs(mean)) %>%
-            arrange(subject, activity)
-# update column names
-names(result) = c('subject', 'activity', 
-                  unlist(lapply(names(result)[3:68],
-                                function(x) paste('mean of', x))))
+subject_train <- read.table('data/UCI HAR Dataset/train/subject_train.txt')
+y_train <- read.table('data/UCI HAR Dataset/train/Y_train.txt')
+x_train <- read.table('data/UCI HAR Dataset/train/X_train.txt')
+data_train <- cbind(subject_train, y_train, x_train)
+
+data <- rbind(data_test, data_train)
+
+features <- read.table('data/UCI HAR Dataset/features.txt')
+names(data) <- c('subject', 'activity_code', as.character(features[,2]))
+
+
+#2. Extract only the measurements on the mean and standard deviation for each measurement. 
+#   That is variables with names including mean() or std().
+mean_std_data <- data[, grep('subject|activity_code|mean\\(\\)|std\\(\\)', names(data))]
+
+
+#3. Use descriptive activity names to name the activities in the data set
+#   Drop the activity_code variable
+activity <- read.table('data/UCI HAR Dataset/activity_labels.txt')
+names(activity) <- c('activity_code', 'activity')
+mean_std_data <- merge(activity, mean_std_data)[,-1]
+
+
+#4. Appropriately label the data set with descriptive variable names.
+variablenames <- names(mean_std_data)
+variablenames <- gsub("-mean\\(\\)", "Mean", variablenames)
+variablenames <- gsub("-std\\(\\)", "StandardDeviation", variablenames)
+variablenames <- gsub("Acc", "Acceleration", variablenames)
+variablenames <- gsub("^t", "Time", variablenames)
+variablenames <- gsub("^f", "Fourier", variablenames)
+variablenames <- gsub("-", "", variablenames)
+variablenames <- gsub("(X|Y|Z)$", "\\1axis", variablenames) 
+names(mean_std_data) <- variablenames
+
+#5. From the data set in step 4, creates a second, independent tidy data set with 
+#   the average of each variable for each activity and each subject.
+result <- mean_std_data %>% 
+    group_by(subject, activity) %>%
+    summarise_each(funs(mean)) %>%
+    arrange(subject, activity)
+names(result)[3:68] <- paste0('meanOf', names(result)[3:68])
+
 
 write.table(result, row.names = F, file="result.csv", quote=F, sep = ',')
 
 # clean up
-rm(list = c('activity', 'features', 'set_full', 'set_test', 'set_train', 
-            'subject_test', 'subject_train', 'x_test', 'x_train',
-            'y_test', 'y_train', 'set_reduced'))

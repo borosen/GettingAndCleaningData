@@ -3,10 +3,13 @@ Codebook
 
 Initial data is collected per description here: [Human Activity Recognition Using Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
 
-The sets 'train/X_train.txt', 'train/Y_train.txt', 'train/subject_train.txt', 'test/X_test.txt', 'test/Y_test.txt', 'test/subject_test.txt', and 'activity_labels.txt' has been merged into one temporary data set.
+*The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data.*
 
-From the temporary set, the mean of the the variables regarding mean and standard deviations has in turn been extracted into the final data set.
-The mean is grouped by subject and activity.
+*The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.*
+
+ 
+The computated datasets has been merged. The new data set variabels has been given descriptive names. These varialbes has in turn been summarized by their mean over the subject and activity variables.
+
 
 See run_analysis.R for details.
 
@@ -31,76 +34,76 @@ activity
         WALKING_DOWNSTAIRS
 
 
-mean of tBodyAcc-mean()-X
+meanOfTimeBodyAccelerationMeanXaxis
     Type: num
     Mean value of tBodyAcc-mean()-X over subject and activity
     
 The rest of the variables are of the same type as 'mean of tBodyAcc-mean()-X' above
-mean of tBodyAcc-mean()-Y
-mean of tBodyAcc-mean()-Z
-mean of tBodyAcc-std()-X
-mean of tBodyAcc-std()-Y
-mean of tBodyAcc-std()-Z
-mean of tGravityAcc-mean()-X
-mean of tGravityAcc-mean()-Y
-mean of tGravityAcc-mean()-Z
-mean of tGravityAcc-std()-X
-mean of tGravityAcc-std()-Y
-mean of tGravityAcc-std()-Z
-mean of tBodyAccJerk-mean()-X
-mean of tBodyAccJerk-mean()-Y
-mean of tBodyAccJerk-mean()-Z
-mean of tBodyAccJerk-std()-X
-mean of tBodyAccJerk-std()-Y
-mean of tBodyAccJerk-std()-Z
-mean of tBodyGyro-mean()-X
-mean of tBodyGyro-mean()-Y
-mean of tBodyGyro-mean()-Z
-mean of tBodyGyro-std()-X
-mean of tBodyGyro-std()-Y
-mean of tBodyGyro-std()-Z
-mean of tBodyGyroJerk-mean()-X
-mean of tBodyGyroJerk-mean()-Y
-mean of tBodyGyroJerk-mean()-Z
-mean of tBodyGyroJerk-std()-X
-mean of tBodyGyroJerk-std()-Y
-mean of tBodyGyroJerk-std()-Z
-mean of tBodyAccMag-mean()
-mean of tBodyAccMag-std()
-mean of tGravityAccMag-mean()
-mean of tGravityAccMag-std()
-mean of tBodyAccJerkMag-mean()
-mean of tBodyAccJerkMag-std()
-mean of tBodyGyroMag-mean()
-mean of tBodyGyroMag-std()
-mean of tBodyGyroJerkMag-mean()
-mean of tBodyGyroJerkMag-std()
-mean of fBodyAcc-mean()-X
-mean of fBodyAcc-mean()-Y
-mean of fBodyAcc-mean()-Z
-mean of fBodyAcc-std()-X
-mean of fBodyAcc-std()-Y
-mean of fBodyAcc-std()-Z
-mean of fBodyAccJerk-mean()-X
-mean of fBodyAccJerk-mean()-Y
-mean of fBodyAccJerk-mean()-Z
-mean of fBodyAccJerk-std()-X
-mean of fBodyAccJerk-std()-Y
-mean of fBodyAccJerk-std()-Z
-mean of fBodyGyro-mean()-X
-mean of fBodyGyro-mean()-Y
-mean of fBodyGyro-mean()-Z
-mean of fBodyGyro-std()-X
-mean of fBodyGyro-std()-Y
-mean of fBodyGyro-std()-Z
-mean of fBodyAccMag-mean()
-mean of fBodyAccMag-std()
-mean of fBodyBodyAccJerkMag-mean()
-mean of fBodyBodyAccJerkMag-std()
-mean of fBodyBodyGyroMag-mean()
-mean of fBodyBodyGyroMag-std()
-mean of fBodyBodyGyroJerkMag-mean()
-mean of fBodyBodyGyroJerkMag-std()
+meanOfTimeBodyAccelerationMeanYaxis                      
+meanOfTimeBodyAccelerationMeanZaxis                      
+meanOfTimeBodyAccelerationStandardDeviationXaxis         
+meanOfTimeBodyAccelerationStandardDeviationYaxis         
+meanOfTimeBodyAccelerationStandardDeviationZaxis         
+meanOfTimeGravityAccelerationMeanXaxis                   
+meanOfTimeGravityAccelerationMeanYaxis                   
+meanOfTimeGravityAccelerationMeanZaxis                   
+meanOfTimeGravityAccelerationStandardDeviationXaxis      
+meanOfTimeGravityAccelerationStandardDeviationYaxis      
+meanOfTimeGravityAccelerationStandardDeviationZaxis      
+meanOfTimeBodyAccelerationJerkMeanXaxis                  
+meanOfTimeBodyAccelerationJerkMeanYaxis                  
+meanOfTimeBodyAccelerationJerkMeanZaxis                  
+meanOfTimeBodyAccelerationJerkStandardDeviationXaxis     
+meanOfTimeBodyAccelerationJerkStandardDeviationYaxis     
+meanOfTimeBodyAccelerationJerkStandardDeviationZaxis     
+meanOfTimeBodyGyroMeanXaxis                              
+meanOfTimeBodyGyroMeanYaxis                              
+meanOfTimeBodyGyroMeanZaxis                              
+meanOfTimeBodyGyroStandardDeviationXaxis                 
+meanOfTimeBodyGyroStandardDeviationYaxis                 
+meanOfTimeBodyGyroStandardDeviationZaxis                 
+meanOfTimeBodyGyroJerkMeanXaxis                          
+meanOfTimeBodyGyroJerkMeanYaxis                          
+meanOfTimeBodyGyroJerkMeanZaxis                          
+meanOfTimeBodyGyroJerkStandardDeviationXaxis             
+meanOfTimeBodyGyroJerkStandardDeviationYaxis             
+meanOfTimeBodyGyroJerkStandardDeviationZaxis             
+meanOfTimeBodyAccelerationMagMean                        
+meanOfTimeBodyAccelerationMagStandardDeviation           
+meanOfTimeGravityAccelerationMagMean                     
+meanOfTimeGravityAccelerationMagStandardDeviation        
+meanOfTimeBodyAccelerationJerkMagMean                    
+meanOfTimeBodyAccelerationJerkMagStandardDeviation       
+meanOfTimeBodyGyroMagMean                                
+meanOfTimeBodyGyroMagStandardDeviation                   
+meanOfTimeBodyGyroJerkMagMean                            
+meanOfTimeBodyGyroJerkMagStandardDeviation               
+meanOfFourierBodyAccelerationMeanXaxis                   
+meanOfFourierBodyAccelerationMeanYaxis                   
+meanOfFourierBodyAccelerationMeanZaxis                   
+meanOfFourierBodyAccelerationStandardDeviationXaxis      
+meanOfFourierBodyAccelerationStandardDeviationYaxis      
+meanOfFourierBodyAccelerationStandardDeviationZaxis      
+meanOfFourierBodyAccelerationJerkMeanXaxis               
+meanOfFourierBodyAccelerationJerkMeanYaxis               
+meanOfFourierBodyAccelerationJerkMeanZaxis               
+meanOfFourierBodyAccelerationJerkStandardDeviationXaxis  
+meanOfFourierBodyAccelerationJerkStandardDeviationYaxis  
+meanOfFourierBodyAccelerationJerkStandardDeviationZaxis  
+meanOfFourierBodyGyroMeanXaxis                           
+meanOfFourierBodyGyroMeanYaxis                           
+meanOfFourierBodyGyroMeanZaxis                           
+meanOfFourierBodyGyroStandardDeviationXaxis              
+meanOfFourierBodyGyroStandardDeviationYaxis              
+meanOfFourierBodyGyroStandardDeviationZaxis              
+meanOfFourierBodyAccelerationMagMean                     
+meanOfFourierBodyAccelerationMagStandardDeviation        
+meanOfFourierBodyBodyAccelerationJerkMagMean             
+meanOfFourierBodyBodyAccelerationJerkMagStandardDeviation
+meanOfFourierBodyBodyGyroMagMean                         
+meanOfFourierBodyBodyGyroMagStandardDeviation            
+meanOfFourierBodyBodyGyroJerkMagMean                     
+meanOfFourierBodyBodyGyroJerkMagStandardDeviation 
 ```
 
 __Raw data description__
@@ -161,4 +164,4 @@ tBodyAccJerkMean
 tBodyGyroMean  
 tBodyGyroJerkMean  
 
-The complete list of variables of each feature vector is available in 'features.txt'  
+The complete list of variables of each feature vector is available in 'data/UCI HAR Dataset/features.txt'  
