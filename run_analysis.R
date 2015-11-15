@@ -8,7 +8,7 @@
 
 
 
-#1. Merge the training and the test sets to create one data set.
+#1. Merge the training and the test sets to create one data set, data.
 
 library(dplyr)
 subject_test <- read.table('data/UCI HAR Dataset/test/subject_test.txt')
@@ -27,20 +27,27 @@ features <- read.table('data/UCI HAR Dataset/features.txt')
 names(data) <- c('subject', 'activity_code', as.character(features[,2]))
 
 
-#2. Extract only the measurements on the mean and standard deviation for each measurement. 
-#   That is variables with names including mean() or std().
-mean_std_data <- data[, grep('subject|activity_code|mean\\(\\)|std\\(\\)', names(data))]
+
+#2. Extract only the measurements on the mean and standard deviation for each 
+#   measurement. I.e. variables with names including mean() or std().
+data <- data[, grep('subject|activity_code|mean\\(\\)|std\\(\\)', names(data))]
+
 
 
 #3. Use descriptive activity names to name the activities in the data set
 #   Drop the activity_code variable
 activity <- read.table('data/UCI HAR Dataset/activity_labels.txt')
 names(activity) <- c('activity_code', 'activity')
-mean_std_data <- merge(activity, mean_std_data)[,-1]
+data <- merge(activity, data)[,-1]
+
 
 
 #4. Appropriately label the data set with descriptive variable names.
-variablenames <- names(mean_std_data)
+#  1. mean, std, and Acc -> Mean, StandardDeviation, and Acceleration
+#  2. t and f starting the original name -> Time and Fourier
+#  3. remove -
+#  4. X, Y, and Z -> Xaxis, Yaxis, and Zaxis
+variablenames <- names(data)
 variablenames <- gsub("-mean\\(\\)", "Mean", variablenames)
 variablenames <- gsub("-std\\(\\)", "StandardDeviation", variablenames)
 variablenames <- gsub("Acc", "Acceleration", variablenames)
@@ -48,17 +55,26 @@ variablenames <- gsub("^t", "Time", variablenames)
 variablenames <- gsub("^f", "Fourier", variablenames)
 variablenames <- gsub("-", "", variablenames)
 variablenames <- gsub("(X|Y|Z)$", "\\1axis", variablenames) 
-names(mean_std_data) <- variablenames
+names(data) <- variablenames
 
-#5. From the data set in step 4, creates a second, independent tidy data set with 
+
+
+#5. From the data set in step 4, create a second, independent tidy data set with 
 #   the average of each variable for each activity and each subject.
-result <- mean_std_data %>% 
+#   Name the new variables correctly
+result <- data %>% 
     group_by(subject, activity) %>%
-    summarise_each(funs(mean)) %>%
+    summarize_each(funs(mean)) %>%
     arrange(subject, activity)
 names(result)[3:68] <- paste0('meanOf', names(result)[3:68])
 
 
-write.table(result, row.names = F, file="result.csv", quote=F, sep = ',')
+
+# Export data set with write.table
+write.table(result, row.names = F, file="analysis.csv", quote=F, sep = ',')
+
+
 
 # clean up
+rm(activity, data, data_test, data_train, features, subject_test, subject_train, 
+   x_test, x_train, y_test, y_train, variablenames)
