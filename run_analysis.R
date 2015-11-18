@@ -71,7 +71,7 @@ names(result)[3:68] <- paste0('meanOf', names(result)[3:68])
 
 
 # Export data set with write.table
-write.table(result, row.names = F, file="analysis.csv", quote=F, sep = ',')
+write.table(result, row.names = F, file="analysis.txt", quote=F, sep = ',')
 
 
 
